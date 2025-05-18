@@ -115,7 +115,7 @@ def make_psd_cc_liveries(psd_file, *, shading=None, paint=None, overlay=None, cc
 
 
 COMMON_C1_PROPS = dict(
-    length=8,
+    length=8 ,
     misc_flags=RoadVehicle.Flags.USE_2CC,
     power_type='3rd',
     max_speed=RoadVehicle.kmhish(80),
@@ -201,6 +201,160 @@ verymuchabusnotatrain2 = RoadVehicle(
         'Operator': 'SS/SL',
         'Use': 'Sockholm Metro buses',
         'Builder': 'ASJ',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+COMMON_CR112_PROPS = dict(
+    length=8,
+    misc_flags=RoadVehicle.Flags.USE_2CC,
+    power_type='3rd',
+    max_speed=RoadVehicle.kmhish(90),
+    power=25,
+    vehicle_life=30,
+    model_life=30,
+    climates_available=grf.ALL_CLIMATES,
+    weight=10,
+    tractive_effort_coefficient=80,
+    running_cost_factor=200,
+    cargo_capacity=79,
+    loading_speed=40,
+    cost_factor=25,
+    refittable_cargo_classes=grf.CargoClass.PASSENGERS,
+    country='sweden',
+)
+
+s_b_CR112_1 = RoadVehicle(
+    **COMMON_CR112_PROPS,
+    #id='s_b_CR112_1',
+    id=0x04,
+    name='њSL CR112 (1-1-1)',
+    liveries=make_psd_cc_liveries(
+        'pp/CR112.psd',
+        shading='CR112_1-1-1',
+        paint='SL1',
+        cc_replace=colours["RED"],
+        cc2_replace=colours["GREY1"]
+    ),
+    company='sl',
+    road_type=slow,
+    introduction_date=date(1978, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'SL',
+        'Use': 'Suburban bus',
+        'Builder': 'Scania',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+s_b_CR112_2 = RoadVehicle(
+    **COMMON_CR112_PROPS,
+    #id='s_b_CR112_2',
+    id=0x05,
+    name='њSL CR112 (2-2-1)',
+    liveries=make_psd_cc_liveries(
+        'pp/CR112.psd',
+        shading='CR112_2-2-1',
+        paint='SL1',
+        cc_replace=colours["RED"],
+        cc2_replace=colours["GREY1"]
+    ),
+    company='sl',
+    road_type=slow,
+    introduction_date=date(1978, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'SL',
+        'Use': 'Suburban bus',
+        'Builder': 'Scania',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+s_b_CR112_3 = RoadVehicle(
+    **COMMON_CR112_PROPS,
+    #id='s_b_CR112_3',
+    id=0x06,
+    name='њSL CR112 (1-1-1)',
+    liveries=make_psd_cc_liveries(
+        'pp/CR112.psd',
+        shading='CR112_1-1-1',
+        paint='SL2',
+        cc_replace=colours["RED"],
+        cc2_replace=colours["GREY1"]
+    ),
+    company='sl',
+    road_type=slow,
+    introduction_date=date(1988, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'SL',
+        'Use': 'Suburban bus',
+        'Builder': 'Scania',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+s_b_CR112_4 = RoadVehicle(
+    **COMMON_CR112_PROPS,
+    #id='s_b_CR112_4',
+    id=0x07,
+    name='њSL CR112 (2-2-1)',
+    liveries=make_psd_cc_liveries(
+        'pp/CR112.psd',
+        shading='CR112_2-2-1',
+        paint='SL2',
+        cc_replace=colours["RED"],
+        cc2_replace=colours["GREY1"]
+    ),
+    company='sl',
+    road_type=slow,
+    introduction_date=date(1978, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'SL',
+        'Use': 'Suburban bus',
+        'Builder': 'Scania',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+COMMON_7900E_PROPS = dict(
+    length=8,
+    misc_flags=RoadVehicle.Flags.USE_2CC,
+    power_type='3rd',
+    max_speed=RoadVehicle.kmhish(90),
+    power=27,
+    vehicle_life=30,
+    model_life=30,
+    climates_available=grf.ALL_CLIMATES,
+    weight=14,
+    tractive_effort_coefficient=80,
+    running_cost_factor=200,
+    cargo_capacity=71,
+    loading_speed=40,
+    cost_factor=25,
+    refittable_cargo_classes=grf.CargoClass.PASSENGERS,
+    country='sweden',
+)
+
+s_b_7900E_1 = RoadVehicle(
+    **COMMON_7900E_PROPS,
+    #id='s_b_7900E_1',
+    id=0x08,
+    name='њVT 7900E (2-2-2)',
+    liveries=make_psd_cc_liveries(
+        'pp/7900E.psd',
+        shading='7900E',
+        paint='Västtrafik',
+        overlay='Västtrafik lights',
+        cc_replace=colours["BLUE"],
+        cc2_replace=colours["SKY"]
+    ),
+    company='sl',
+    road_type=slow,
+    introduction_date=date(2022, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'Västtrafik',
+        'Use': 'City bus',
+        'Builder': 'Volvo',
         'Trivia': '''First metro -> bus <- for Stockholm.''',
     }),
 )
