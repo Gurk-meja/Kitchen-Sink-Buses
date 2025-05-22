@@ -316,7 +316,7 @@ s_b_CR112_4 = RoadVehicle(
     }),
 )
 
-COMMON_7900E_PROPS = dict(
+COMMON_7900E_1_PROPS = dict(
     length=8,
     misc_flags=RoadVehicle.Flags.USE_2CC,
     power_type='3rd',
@@ -335,17 +335,15 @@ COMMON_7900E_PROPS = dict(
     country='sweden',
 )
 
-s_b_7900E_1 = RoadVehicle(
-    **COMMON_7900E_PROPS,
-    #id='s_b_7900E_1',
+s_b_7900E_1_1_VT = RoadVehicle(
+    **COMMON_7900E_1_PROPS,
+    #id='s_b_7900E_1_1_VT',
     id=0x08,
     name='њVT 7900E (2-2-2)',
     liveries=make_psd_cc_liveries(
         'pp/7900E.psd',
-        shading='7900E',
-        paint='Västtrafik',
-        overlay='Västtrafik lights',
-        cc_replace=colours["BLUE"],
+        shading='7900E (2-2-2) Västtrafik',
+        cc_replace=colours["SLBLUE"],
         cc2_replace=colours["SKY"]
     ),
     company='sl',
@@ -353,6 +351,99 @@ s_b_7900E_1 = RoadVehicle(
     introduction_date=date(2022, 1, 1),
     additional_text=grf.fake_vehicle_info({
         'Operator': 'Västtrafik',
+        'Use': 'City bus',
+        'Builder': 'Volvo',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+
+
+s_b_7900E_1_2_ST = RoadVehicle(
+    **COMMON_7900E_1_PROPS,
+    #id='s_b_7900E_1_2_ST',
+    id=0x09,
+    name='њST 7900E (2-2-2)',
+    liveries=make_psd_cc_liveries(
+        'pp/7900E.psd',
+        shading='7900E (2-2-2) Skånetrafiken',
+        paint= ['Window extension'],
+        overlay= ['Black lights'],
+        cc_replace=colours["GREEN"],
+        cc2_replace=colours["GREEN"]
+    ),
+    company='sl',
+    road_type=slow,
+    introduction_date=date(2022, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'Skånetrafiken',
+        'Use': 'City bus',
+        'Builder': 'Volvo',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+s_b_7900E_1_3_JLT = RoadVehicle(
+    **COMMON_7900E_1_PROPS,
+    #id='s_b_7900E_1_3_JLT',
+    id=0x10,
+    name='њJLT 7900E (2-2-2)',
+    liveries=make_psd_cc_liveries(
+        'pp/7900E.psd',
+        shading='7900E (2-2-2)',
+        paint= ['JLT', 'Window extension'],
+        overlay=['JLT leaves', 'Black lights'],
+        cc_replace=colours["GREY1"],
+        cc2_replace=colours["RED"]
+    ),
+    company='sl',
+    road_type=slow,
+    introduction_date=date(2022, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'Jönköpings Länstrafik',
+        'Use': 'City bus',
+        'Builder': 'Volvo',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+COMMON_7900E_2_PROPS = dict(
+    length=8,
+    misc_flags=RoadVehicle.Flags.USE_2CC,
+    power_type='3rd',
+    max_speed=RoadVehicle.kmhish(90),
+    power=27,
+    vehicle_life=30,
+    model_life=30,
+    climates_available=grf.ALL_CLIMATES,
+    weight=14,
+    tractive_effort_coefficient=80,
+    running_cost_factor=200,
+    cargo_capacity=79,
+    loading_speed=40,
+    cost_factor=25,
+    refittable_cargo_classes=grf.CargoClass.PASSENGERS,
+    country='sweden',
+)
+
+s_b_7900E_2_1_SB = RoadVehicle(
+    **COMMON_7900E_2_PROPS,
+    #id='s_b_7900E_2_1_SB',
+    id=0x11,
+    name='њSB 7900E (2-2-0)',
+    liveries=make_psd_cc_liveries(
+        'pp/7900E.psd',
+        shading='7900E (2-2-0)',
+        paint= ['Window extension'],
+        overlay=['Black lights'],
+        cc_replace=colours["GREY1"],
+        cc2_replace=colours["LIME"]
+    ),
+    company='sl',
+    road_type=slow,
+    introduction_date=date(2022, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'Skellefteå Buss',
         'Use': 'City bus',
         'Builder': 'Volvo',
         'Trivia': '''First metro -> bus <- for Stockholm.''',
