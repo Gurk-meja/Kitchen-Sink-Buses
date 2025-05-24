@@ -1,6 +1,7 @@
 import os
 from collections import Counter
 from pathlib import Path
+import struct
 
 from PIL import Image, ImageDraw
 import numpy as np
@@ -80,12 +81,137 @@ def read_palette_file(file):
     return res
 
 
-class NewGRF(grf.NewGRF):
-    
-    def __init__(self, *, grfid, name, description, version=None, min_compatible_version=None, format_version=8, url=None, strings=None, id_map_file=None, sprite_cache_path='.cache', preferred_blitter=None):
-        self._roadtype_table = None
-        super().__init__(grfid=grfid, name=name, description=description, version=version, min_compatible_version=min_compatible_version, format_version=format_version, url=url, strings=strings, id_map_file=id_map_file, sprite_cache_path=sprite_cache_path, preferred_blitter=preferred_blitter)
+class NewGRF(grf.BaseNewGRF):
+    BLITTER_BPP_8 = b'8'
+    BLITTER_BPP_32 = b'3'
 
+    def __init__(self, *, grfid, name, description, version=None, min_compatible_version=None, format_version=8, url=None, strings=None, id_map_file=None, sprite_cache_path='.cache', preferred_blitter=None):
+        super().__init__(strings=strings, id_map_file=id_map_file, sprite_cache_path=sprite_cache_path)
+
+        if isinstance(grfid, str):
+            grfid = grfid.encode('utf-8')
+
+        if len(grfid) != 4:
+            raise ValueError(f'Expected 4 symbols for GRFID, found {len(grfid)}: {grfid}')
+
+        props = {
+            'INFO': {
+                'PALS': b'D',
+                'NAME': name,
+                'DESC': description,
+            }
+        }
+
+        if preferred_blitter is not None:
+            if preferred_blitter not in (NewGRF.BLITTER_BPP_8, NewGRF.BLITTER_BPP_32):
+                raise ValueError(f'Invalid value for preferred_blitter: {preferred_blitter}')
+            props['INFO']['BLTR'] = preferred_blitter
+
+        if version is not None:
+            assert isinstance(version, int), type(version)
+            props['INFO']['VRSN'] = version
+
+        if min_compatible_version is not None:
+            assert isinstance(min_compatible_version, int), type(min_compatible_version)
+            props['INFO']['MINV'] = min_compatible_version
+
+        if url is not None:
+            assert isinstance(url, str), type(url)
+            props['INFO']['URL_'] = url
+
+        self._props = props
+        self._params = []
+        self._cargo_table = None
+        self._railtype_table = None
+        self.grfid = grfid
+        self.name = name
+        self.description = description
+        self.format_version = format_version
+
+    @property
+    def grfid_value(self):
+        return struct.unpack('<I', self.grfid)[0]
+
+    def add_railtype(self, *railtype_list):
+        if self._railtype_table is None:
+            self._railtype_table = {}
+
+        if railtype_list and isinstance(railtype_list[0], (tuple, list)):
+            railtype_list = railtype_list[0]
+
+        rt_id = len(self._railtype_table)
+
+        if isinstance(railtype_list, (list, tuple)):
+            rtb = to_bytes(railtype_list[0])
+            self._railtype_table[rtb] = (rt_id, tuple(map(to_bytes, railtype_list)))
+        else:
+            rtb = to_bytes(railtype_list)
+            self._railtype_table[rtb] = (rt_id, None)
+
+        return rt_id
+
+    def set_railtype_table(self, railtype_list):
+        self._railtype_table = {}
+        res = []
+        for i, rt in enumerate(railtype_list):
+            res.append(self.add_railtype(rt))
+        return res
+
+    def get_railtype_id(self, railtype):
+        rtbytes = to_bytes(railtype)
+        if rtbytes not in self._railtype_table:
+            raise ValueError(f'Unknown railtype `{railtype}`')
+        return self._railtype_table[rtbytes][0]
+
+    def set_cargo_table(self, cargo_list):
+        self._cargo_table = {}
+        for i, c in enumerate(cargo_list):
+            self._cargo_table[to_bytes(c)] = i
+        return tuple(range(len(cargo_list)))
+
+    def get_cargo_id(self, cargo):
+        cbytes = to_bytes(cargo)
+        res = self._cargo_table.get(cbytes)
+        assert res is not None, cbytes
+        return res
+
+    def map_cargo_labels(self, labels):
+        if self._cargo_table is None:
+            raise RuntimeError(f'`{self.__class__.__name__}.map_cargo_lables` requires cargo_table to be set')
+        return bytes(self._cargo_table[to_bytes(l)] for l in labels)
+
+    def generate_sprites(self):
+        if self._params:
+            self._props['INFO']['NPAR'] = bytes((len(self._params),))
+            self._props['INFO']['PARA'] = {}
+            for i, p in enumerate(self._params):
+                self._props['INFO']['PARA'][i] = p
+
+        res = [
+            SetProperties(self._props),
+            SetDescription(
+                format_version=self.format_version,
+                grfid=self.grfid,
+                name=self.name.get_default() if isinstance(self.name, StringRef) else str(self.name),
+                description=self.description.get_default() if isinstance(self.description, StringRef) else str(self.description),
+            )
+        ]
+
+        if self._cargo_table is not None:
+            res.append(DefineMultiple(
+                feature=GLOBAL_VAR,
+                first_id=0,
+                count=len(self._cargo_table),
+                props={
+                    'cargo_table': list(self._cargo_table.keys())
+                }
+            ))
+
+        res.extend(self._generate_railtype_table())
+        res.extend(self._generate_roadtype_table())
+
+        return res + super().generate_sprites()
+    
     def add_roadtype(self, *roadtype_list):
         if self._roadtype_table is None:
             self._roadtype_table = {}
@@ -116,22 +242,15 @@ class NewGRF(grf.NewGRF):
         if rtbytes not in self._roadtype_table:
             raise ValueError(f'Unknown roadtype `{roadtype}`')
         return self._roadtype_table[rtbytes][0]
-    
-    def generate_sprites(self):
-        res = super().generate_sprites()
 
-        res.extend(self._generate_roadtype_table())
-
-        return res
-
-    def _generate_roadtype_table(self):
-        if self._roadtype_table is None:
+    def _generate_railtype_table(self):
+        if self._railtype_table is None:
             return []
 
         res = []
 
         mods = []
-        for i, rtlist in self._roadtype_table.values():
+        for i, rtlist in self._railtype_table.values():
             if rtlist is None or len(rtlist) == 1:
                 continue
 
@@ -166,12 +285,98 @@ class NewGRF(grf.NewGRF):
         res.append(DefineMultiple(
             feature=GLOBAL_VAR,
             first_id=0,
+            count=len(self._railtype_table),
+            props={
+                'railtype_table': list(self._railtype_table.keys())
+            }
+        ))
+        return res
+
+    def _generate_roadtype_table(self):
+        if self._roadtype_table is None:
+            return []
+
+        res = []
+
+        mods = []
+        for i, rtlist in self._roadtype_table.values():
+            if rtlist is None or len(rtlist) == 1:
+                continue
+
+            param = 0x7f - len(mods)
+            for j, rt in enumerate(rtlist):
+                # [param] = rt
+                res.append(ComputeParameters(
+                    target=param,
+                    operation=0,
+                    if_undefined=False,
+                    source1=255,
+                    source2=255,
+                    value=rt,
+                ))
+
+                # if rt is defined skip the rest (unless it's the last rt)
+                skip = 2 * (len(rtlist) - j - 1) - 1
+                if skip > 0:
+                    res.append(If(
+                        is_static=True,
+                        variable=0,
+                        condition=0x10, # Roadtype label in value is defined
+                        value=rt,
+                        skip=skip,
+                    ))
+
+            mods.append({'num': param, 'size': 4, 'offset': 8 + i * 4})
+
+        if mods:
+            res.append(ModifySprites(mods))
+
+        res.append(DefineMultiple(
+            feature=GLOBAL_VAR,
+            first_id=0,
             count=len(self._roadtype_table),
             props={
                 'roadtype_table1': list(self._roadtype_table.keys())
             }
         ))
         return res
+
+    def add_bool_parameter(self, *, name, description, default=None):
+        data = {
+            'NAME': name,
+            'DESC': description,
+            'TYPE': b'\x01',
+        }
+        if default is not None:
+            if not isinstance(default, bool):
+                raise ValueError('Default value for bool parameter should be bool')
+            data['DFLT'] = int(default)
+        self._params.append(data)
+
+    def add_int_parameter(self, *, name, description, default=None, limits=None, enum=None):
+        data = {
+            'NAME': name,
+            'DESC': description,
+            'TYPE': b'\0',
+        }
+
+        if default is not None:
+            if not isinstance(default, int):
+                raise ValueError('Default value int parameter should be int')
+            data['DFLT'] = int(default)
+
+        if limits is not None:
+            if not isinstance(limits, tuple) or len(limits) != 2 or any(not isinstance(x, int) for x in limits):
+                raise ValueError('Limits should be tuple of (int, int)')
+            data['LIMI'] = struct.pack('<II', *limits)
+
+        if enum is not None:
+            if not all(isinstance(k, int) and isinstance(v, (str, StringRef)) for k, v in enum.items()):
+                raise ValueError('Enum should be a dict of {int: Union[str, StringRef]}')
+
+            data['VALU'] = enum
+
+        self._params.append(data)
 
 class AutoMaskingFileSprite(grf.FileSprite):
     def __init__(self, file, cc_mode, *args, **kw):

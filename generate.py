@@ -6,26 +6,35 @@ g = lib.NewGRF(
     name="Epic bus grf",
     description="An epic bus grf in grf-py",
     min_compatible_version=0,
-    version=0, #should be 1 on release 0 for testing
-    id_map_file="ids.json"
+    version=0, #should be 1 on release, 0 for testing
+    id_map_file='id_map.json',
 )
 
 # roadtype table
 (
-    slow,
-    slow_bus,
-    regular,
-    regular_bus,
-    fast,
-    fast_bus,
+    off_road,
+    off_road_bus,
+    all_terrain,
+    all_terrain_bus,
+    highway,
+    highway_bus,
 ) = g.set_roadtype_table([
-    ('RAAN', 'ROAD'),         #Slow / dirt not suited for motorway due to speed
-    ('PAAN', 'RAAN', 'ROAD'), #Bus
-    ('RABN', 'ROAD'),         #Regular / allowed everywhere
-    ('PABN', 'RABN', 'ROAD'), #Bus
-    ('RACN', 'ROAD'),         #Fast / motorway not suited for mud
-    ('PACN', 'RACN', 'ROAD'), #Bus
+    ('RAAN', 'ROAD'),         # Off-road
+    ('PAAN', 'RAAN', 'ROAD'), # Off-road Bus
+    ('RABN', 'ROAD'),         # All terrain
+    ('PABN', 'RABN', 'ROAD'), # All terrain Bus
+    ('RACN', 'ROAD'),         # Highway only             
+    ('PACN', 'RACN', 'ROAD'), # Highway only bus
 ])
+
+#There are 5 different road terrains only A, B and C may be used
+#Off-road only (a)
+#Off-road and all-terrain (A)
+#Off-road, all-terrain and highway (B)
+#All-terrain and highway (C)
+#Highway only (c) #doesn't exist as grf unsure about irl
+
+#The bus types (P) are allowed on bus exclusive roads others (R) are not. 
 
 RoadVehicle = g.bind(lib.RoadVehicle)
 
@@ -135,9 +144,8 @@ COMMON_C1_PROPS = dict(
 
 verymuchabusnotatrain = RoadVehicle(
     **COMMON_C1_PROPS,
-    #id='s_e_C1_1',
-    id=0x01,
-    name='њSS/SL C1',
+    id='s_e_C1_1',
+    name='Off-road',
     liveries=make_psd_cc_liveries(
         'pp/1949_SE_C1.psd',
         shading='C1',
@@ -147,7 +155,7 @@ verymuchabusnotatrain = RoadVehicle(
         cc2_replace=colours["GREEN"]
     ),
     company='ss',
-    road_type=fast_bus,
+    road_type=off_road_bus,
     introduction_date=date(1949, 1, 1),
     additional_text=grf.fake_vehicle_info({
         'Operator': 'SS/SL',
@@ -159,9 +167,8 @@ verymuchabusnotatrain = RoadVehicle(
 
 verymuchabusnotatrain1 = RoadVehicle(
     **COMMON_C1_PROPS,
-    #id='s_e_C1_1',
-    id=0x02,
-    name='њSS/SL C1',
+    id='s_e_C1_2',
+    name='All-terrain',
     liveries=make_psd_cc_liveries(
         'pp/1949_SE_C1.psd',
         shading='C1',
@@ -171,7 +178,7 @@ verymuchabusnotatrain1 = RoadVehicle(
         cc2_replace=colours["GREEN"]
     ),
     company='ss',
-    road_type=fast,
+    road_type=all_terrain_bus,
     introduction_date=date(1949, 1, 1),
     additional_text=grf.fake_vehicle_info({
         'Operator': 'SS/SL',
@@ -183,9 +190,8 @@ verymuchabusnotatrain1 = RoadVehicle(
 
 verymuchabusnotatrain2 = RoadVehicle(
     **COMMON_C1_PROPS,
-    #id='s_e_C1_1',
-    id=0x03,
-    name='њSS/SL C1',
+    id='s_e_C1_3',
+    name='Highway',
     liveries=make_psd_cc_liveries(
         'pp/1949_SE_C1.psd',
         shading='C1',
@@ -195,7 +201,7 @@ verymuchabusnotatrain2 = RoadVehicle(
         cc2_replace=colours["GREEN"]
     ),
     company='ss',
-    road_type=slow,
+    road_type=highway_bus,
     introduction_date=date(1949, 1, 1),
     additional_text=grf.fake_vehicle_info({
         'Operator': 'SS/SL',
@@ -226,8 +232,7 @@ COMMON_CR112_PROPS = dict(
 
 s_b_CR112_1 = RoadVehicle(
     **COMMON_CR112_PROPS,
-    #id='s_b_CR112_1',
-    id=0x04,
+    id='s_b_CR112_1',
     name='њSL CR112 (1-1-1)',
     liveries=make_psd_cc_liveries(
         'pp/CR112.psd',
@@ -237,7 +242,7 @@ s_b_CR112_1 = RoadVehicle(
         cc2_replace=colours["GREY1"]
     ),
     company='sl',
-    road_type=slow,
+    road_type=highway_bus,
     introduction_date=date(1978, 1, 1),
     additional_text=grf.fake_vehicle_info({
         'Operator': 'SL',
@@ -249,8 +254,7 @@ s_b_CR112_1 = RoadVehicle(
 
 s_b_CR112_2 = RoadVehicle(
     **COMMON_CR112_PROPS,
-    #id='s_b_CR112_2',
-    id=0x05,
+    id='s_b_CR112_2',
     name='њSL CR112 (2-2-1)',
     liveries=make_psd_cc_liveries(
         'pp/CR112.psd',
@@ -260,7 +264,7 @@ s_b_CR112_2 = RoadVehicle(
         cc2_replace=colours["GREY1"]
     ),
     company='sl',
-    road_type=slow,
+    road_type=highway_bus,
     introduction_date=date(1978, 1, 1),
     additional_text=grf.fake_vehicle_info({
         'Operator': 'SL',
@@ -272,8 +276,7 @@ s_b_CR112_2 = RoadVehicle(
 
 s_b_CR112_3 = RoadVehicle(
     **COMMON_CR112_PROPS,
-    #id='s_b_CR112_3',
-    id=0x06,
+    id='s_b_CR112_3',
     name='њSL CR112 (1-1-1)',
     liveries=make_psd_cc_liveries(
         'pp/CR112.psd',
@@ -283,7 +286,7 @@ s_b_CR112_3 = RoadVehicle(
         cc2_replace=colours["GREY1"]
     ),
     company='sl',
-    road_type=slow,
+    road_type=highway_bus,
     introduction_date=date(1988, 1, 1),
     additional_text=grf.fake_vehicle_info({
         'Operator': 'SL',
@@ -295,8 +298,7 @@ s_b_CR112_3 = RoadVehicle(
 
 s_b_CR112_4 = RoadVehicle(
     **COMMON_CR112_PROPS,
-    #id='s_b_CR112_4',
-    id=0x07,
+    id='s_b_CR112_4',
     name='њSL CR112 (2-2-1)',
     liveries=make_psd_cc_liveries(
         'pp/CR112.psd',
@@ -306,7 +308,7 @@ s_b_CR112_4 = RoadVehicle(
         cc2_replace=colours["GREY1"]
     ),
     company='sl',
-    road_type=slow,
+    road_type=highway_bus,
     introduction_date=date(1978, 1, 1),
     additional_text=grf.fake_vehicle_info({
         'Operator': 'SL',
@@ -337,8 +339,7 @@ COMMON_7900E_1_PROPS = dict(
 
 s_b_7900E_1_1_VT = RoadVehicle(
     **COMMON_7900E_1_PROPS,
-    #id='s_b_7900E_1_1_VT',
-    id=0x08,
+    id='s_b_7900E_1_1_VT',
     name='њVT 7900E (2-2-2)',
     liveries=make_psd_cc_liveries(
         'pp/7900E.psd',
@@ -347,7 +348,7 @@ s_b_7900E_1_1_VT = RoadVehicle(
         cc2_replace=colours["SKY"]
     ),
     company='sl',
-    road_type=slow,
+    road_type=highway_bus,
     introduction_date=date(2022, 1, 1),
     additional_text=grf.fake_vehicle_info({
         'Operator': 'Västtrafik',
@@ -361,8 +362,7 @@ s_b_7900E_1_1_VT = RoadVehicle(
 
 s_b_7900E_1_2_ST = RoadVehicle(
     **COMMON_7900E_1_PROPS,
-    #id='s_b_7900E_1_2_ST',
-    id=0x09,
+    id='s_b_7900E_1_2_ST',
     name='њST 7900E (2-2-2)',
     liveries=make_psd_cc_liveries(
         'pp/7900E.psd',
@@ -373,7 +373,7 @@ s_b_7900E_1_2_ST = RoadVehicle(
         cc2_replace=colours["GREEN"]
     ),
     company='sl',
-    road_type=slow,
+    road_type=highway_bus,
     introduction_date=date(2022, 1, 1),
     additional_text=grf.fake_vehicle_info({
         'Operator': 'Skånetrafiken',
@@ -385,8 +385,7 @@ s_b_7900E_1_2_ST = RoadVehicle(
 
 s_b_7900E_1_3_JLT = RoadVehicle(
     **COMMON_7900E_1_PROPS,
-    #id='s_b_7900E_1_3_JLT',
-    id=0x10,
+    id='s_b_7900E_1_3_JLT',
     name='њJLT 7900E (2-2-2)',
     liveries=make_psd_cc_liveries(
         'pp/7900E.psd',
@@ -397,7 +396,7 @@ s_b_7900E_1_3_JLT = RoadVehicle(
         cc2_replace=colours["RED"]
     ),
     company='sl',
-    road_type=slow,
+    road_type=highway_bus,
     introduction_date=date(2022, 1, 1),
     additional_text=grf.fake_vehicle_info({
         'Operator': 'Jönköpings Länstrafik',
@@ -428,8 +427,7 @@ COMMON_7900E_2_PROPS = dict(
 
 s_b_7900E_2_1_SB = RoadVehicle(
     **COMMON_7900E_2_PROPS,
-    #id='s_b_7900E_2_1_SB',
-    id=0x11,
+    id='s_b_7900E_2_1_SB',
     name='њSB 7900E (2-2-0)',
     liveries=make_psd_cc_liveries(
         'pp/7900E.psd',
@@ -440,7 +438,7 @@ s_b_7900E_2_1_SB = RoadVehicle(
         cc2_replace=colours["LIME"]
     ),
     company='sl',
-    road_type=slow,
+    road_type=highway_bus,
     introduction_date=date(2022, 1, 1),
     additional_text=grf.fake_vehicle_info({
         'Operator': 'Skellefteå Buss',
@@ -449,5 +447,9 @@ s_b_7900E_2_1_SB = RoadVehicle(
         'Trivia': '''First metro -> bus <- for Stockholm.''',
     }),
 )
+
+(g.add(lib.SetPurchaseOrder(
+    s_b_7900E_2_1_SB
+).set_variant_callbacks(g)))
 
 grf.main(g, "buses.grf")
