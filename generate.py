@@ -31,14 +31,14 @@ RoadVehicle = g.bind(lib.RoadVehicle)
 
 def tmpl_bus(func):
     return [
-        func(  0, 8, 10, 44, xofs=-4,  yofs=-21),
-        func( 20, 8, 42, 44, xofs=-24, yofs=-30),
-        func( 70, 8, 69, 44, xofs=-34, yofs=-38),
-        func(150, 8, 42, 44, xofs=-16, yofs=-30),
-        func(200, 8, 10, 44, xofs=-4,  yofs=-21),
-        func(220, 8, 42, 44, xofs=-24, yofs=-30),
-        func(270, 8, 69, 44, xofs=-34, yofs=-38),
-        func(350, 8, 42, 44, xofs=-16, yofs=-30),
+        func(  0, 8, 10, 44, xofs=-4,  yofs=-21), #N
+        func( 20, 8, 42, 44, xofs=-24, yofs=-30), #NE
+        func( 70, 8, 69, 44, xofs=-34, yofs=-38), #E
+        func(150, 8, 42, 44, xofs=-16, yofs=-30), #SE
+        func(200, 8, 10, 44, xofs=-4,  yofs=-21), #S
+        func(220, 8, 42, 44, xofs=-24, yofs=-30), #SW
+        func(270, 8, 69, 44, xofs=-34, yofs=-38), #W
+        func(350, 8, 42, 44, xofs=-16, yofs=-30), #NW
     ]
 
 Livery = lib.LiveryFactory(tmpl_bus)
@@ -224,10 +224,14 @@ COMMON_CR112_PROPS = dict(
     country='sweden',
 )
 
-s_b_CR112_1 = RoadVehicle(
+r_s_CR112_1 = RoadVehicle(
     **COMMON_CR112_PROPS,
+<<<<<<< Updated upstream
     #id='s_b_CR112_1',
     id=0x04,
+=======
+    id='r_s_CR112_1',
+>>>>>>> Stashed changes
     name='њSL CR112 (1-1-1)',
     liveries=make_psd_cc_liveries(
         'pp/CR112.psd',
@@ -247,10 +251,14 @@ s_b_CR112_1 = RoadVehicle(
     }),
 )
 
-s_b_CR112_2 = RoadVehicle(
+r_s_CR112_2 = RoadVehicle(
     **COMMON_CR112_PROPS,
+<<<<<<< Updated upstream
     #id='s_b_CR112_2',
     id=0x05,
+=======
+    id='r_s_CR112_2',
+>>>>>>> Stashed changes
     name='њSL CR112 (2-2-1)',
     liveries=make_psd_cc_liveries(
         'pp/CR112.psd',
@@ -270,10 +278,14 @@ s_b_CR112_2 = RoadVehicle(
     }),
 )
 
-s_b_CR112_3 = RoadVehicle(
+r_s_CR112_3 = RoadVehicle(
     **COMMON_CR112_PROPS,
+<<<<<<< Updated upstream
     #id='s_b_CR112_3',
     id=0x06,
+=======
+    id='r_s_CR112_3',
+>>>>>>> Stashed changes
     name='њSL CR112 (1-1-1)',
     liveries=make_psd_cc_liveries(
         'pp/CR112.psd',
@@ -293,10 +305,14 @@ s_b_CR112_3 = RoadVehicle(
     }),
 )
 
-s_b_CR112_4 = RoadVehicle(
+r_s_CR112_4 = RoadVehicle(
     **COMMON_CR112_PROPS,
+<<<<<<< Updated upstream
     #id='s_b_CR112_4',
     id=0x07,
+=======
+    id='r_s_CR112_4',
+>>>>>>> Stashed changes
     name='њSL CR112 (2-2-1)',
     liveries=make_psd_cc_liveries(
         'pp/CR112.psd',
@@ -329,12 +345,13 @@ COMMON_7900E_PROPS = dict(
     tractive_effort_coefficient=80,
     running_cost_factor=200,
     cargo_capacity=71,
-    loading_speed=40,
+    loading_speed=18,
     cost_factor=25,
     refittable_cargo_classes=grf.CargoClass.PASSENGERS,
     country='sweden',
 )
 
+<<<<<<< Updated upstream
 s_b_7900E_1 = RoadVehicle(
     **COMMON_7900E_PROPS,
     #id='s_b_7900E_1',
@@ -346,6 +363,17 @@ s_b_7900E_1 = RoadVehicle(
         paint='Västtrafik',
         overlay='Västtrafik lights',
         cc_replace=colours["BLUE"],
+=======
+r_s_7900E_1_1 = RoadVehicle(
+    **COMMON_7900E_1_PROPS,
+    id='r_s_7900E_1_1',
+    name='њVästtrafik 7900E (2-2-2)',
+    liveries=make_psd_cc_liveries(
+        'pp/7900E.psd',
+        shading='7900E (2-2-2) Västtrafik',
+        paint= ['Upper window extension'],
+        cc_replace=colours["SLBLUE"],
+>>>>>>> Stashed changes
         cc2_replace=colours["SKY"]
     ),
     company='sl',
@@ -359,4 +387,251 @@ s_b_7900E_1 = RoadVehicle(
     }),
 )
 
+<<<<<<< Updated upstream
+=======
+r_s_7900E_1_2 = RoadVehicle(
+    **COMMON_7900E_1_PROPS,
+    id='r_s_7900E_1_2',
+    name='њVästtrafik 7900E (2-2-2)',
+    liveries=make_psd_cc_liveries(
+        'pp/7900E.psd',
+        shading='7900E (2-2-2) Västtrafik',
+        paint= ['Upper window extension', 'Lower window extension', 'Black lights'],
+        cc_replace=colours["SLBLUE"],
+        cc2_replace=colours["SKY"]
+    ),
+    company='sl',
+    road_type=highway_bus,
+    introduction_date=date(2022, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'Västtrafik',
+        'Use': 'City bus',
+        'Builder': 'Volvo',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+r_s_7900E_1_3 = RoadVehicle(
+    **COMMON_7900E_1_PROPS,
+    id='r_s_7900E_1_3',
+    name='њSkånetrafiken 7900E (2-2-2)',
+    liveries=make_psd_cc_liveries(
+        'pp/7900E.psd',
+        shading='7900E (2-2-2) Skånetrafiken',
+        paint= ['Upper window extension', 'Lower window extension', 'Black lights'],
+        cc_replace=colours["GREEN"],
+        cc2_replace=colours["GREEN"]
+    ),
+    company='sl',
+    road_type=highway_bus,
+    introduction_date=date(2022, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'Skånetrafiken',
+        'Use': 'City bus',
+        'Builder': 'Volvo',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+r_s_7900E_1_4 = RoadVehicle(
+    **COMMON_7900E_1_PROPS,
+    id='r_s_7900E_1_4',
+    name='њJLT 7900E (2-2-2)',
+    liveries=make_psd_cc_liveries(
+        'pp/7900E.psd',
+        shading='7900E (2-2-2)',
+        paint= ['Upper window extension', 'Lower window extension', 'Black lights', 'JLT'],
+        overlay=['JLT leaves'],
+        cc_replace=colours["GREY1"],
+        cc2_replace=colours["RED"]
+    ),
+    company='sl',
+    road_type=highway_bus,
+    introduction_date=date(2022, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'Jönköpings Länstrafik',
+        'Use': 'City bus',
+        'Builder': 'Volvo',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+r_s_7900E_1_5 = RoadVehicle(
+    **COMMON_7900E_1_PROPS,
+    id='r_s_7900E_1_5',
+    name='њReis Nordland 7900E (2-2-2)',
+    liveries=make_psd_cc_liveries(
+        'pp/7900E.psd',
+        shading='7900E (2-2-2)',
+        paint= ['Upper window extension', 'Lower window extension', 'Black lights', 'Reis nordland'],
+        cc_replace=colours["TURQUOISE"],
+        cc2_replace=colours["GREY1"]
+    ),
+    company='sl',
+    road_type=highway_bus,
+    introduction_date=date(2022, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'Reis Nordland',
+        'Use': 'City bus',
+        'Builder': 'Volvo',
+        'Trivia': '''Bodø''',
+    }),
+)
+
+r_s_7900E_1_6 = RoadVehicle(
+    **COMMON_7900E_1_PROPS,
+    id='r_s_7900E_1_6',
+    name='њSL 7900E (2-2-2)',
+    liveries=make_psd_cc_liveries(
+        'pp/7900E.psd',
+        shading='7900E (2-2-2)',
+        paint= ['Upper window extension', 'Lower window extension', 'Black lights', 'SL'],
+        cc_replace=colours["RED"],
+        cc2_replace=colours["GREY1"]
+    ),
+    company='sl',
+    road_type=highway_bus,
+    introduction_date=date(2022, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'Jönköpings Länstrafik',
+        'Use': 'City bus',
+        'Builder': 'Volvo',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+r_s_7900E_1_7 = RoadVehicle(
+    **COMMON_7900E_1_PROPS,
+    id='r_s_7900E_1_7',
+    name='њSL 7900E (2-2-2)',
+    liveries=make_psd_cc_liveries(
+        'pp/7900E.psd',
+        shading='7900E (2-2-2)',
+        paint= ['Upper window extension', 'Lower window extension', 'Black lights', 'Arriva Leiden'],
+        cc_replace=colours["GREEN"],
+        cc2_replace=colours["TURQUOISE"]
+    ),
+    company='sl',
+    road_type=highway_bus,
+    introduction_date=date(2019, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'Arriva Leiden',
+        'Use': 'City bus',
+        'Builder': 'Volvo',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+COMMON_7900E_2_PROPS = dict(
+    length=8,
+    misc_flags=RoadVehicle.Flags.USE_2CC,
+    power_type='3rd',
+    max_speed=RoadVehicle.kmhish(90),
+    power=27,
+    vehicle_life=30,
+    model_life=30,
+    climates_available=grf.ALL_CLIMATES,
+    weight=14,
+    tractive_effort_coefficient=80,
+    running_cost_factor=200,
+    cargo_capacity=79,
+    loading_speed=13,
+    cost_factor=25,
+    refittable_cargo_classes=grf.CargoClass.PASSENGERS,
+    country='sweden',
+)
+
+r_s_7900E_2_1 = RoadVehicle(
+    **COMMON_7900E_2_PROPS,
+    id='r_s_7900E_2_1',
+    name='њSkellefteå Buss 7900E (2-2-0)',
+    liveries=make_psd_cc_liveries(
+        'pp/7900E.psd',
+        shading='7900E (2-2-0)',
+        paint= ['Upper window extension', 'Lower window extension', 'Black lights', 'Skellefteå buss'],
+        overlay=['Skellefteå buss-overlay'],
+        cc_replace=colours["GREY1"],
+        cc2_replace=colours["GREY1"]
+    ),
+    company='sl',
+    road_type=highway_bus,
+    introduction_date=date(2022, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'Skellefteå Buss',
+        'Use': 'City bus',
+        'Builder': 'Volvo',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+r_s_7900E_3_1 = RoadVehicle(
+    **COMMON_7900E_2_PROPS,
+    id='r_s_7900E_3_1',
+    name='њSedlandia 7900E (2-2-0)',
+    liveries=make_psd_cc_liveries(
+        'pp/7900E.psd',
+        shading='7900E (2-2-0) Snelandia',
+        paint= ['Upper window extension', 'Black lights', 'Snelandia'],
+        cc_replace=colours["YELLOW"],
+        cc2_replace=colours["YELLOW"]
+    ),
+    company='sl',
+    road_type=highway_bus,
+    introduction_date=date(2022, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'Snelandia',
+        'Use': 'City bus',
+        'Builder': 'Volvo',
+        'Trivia': '''Hammerfest''',
+    }),
+)
+
+COMMON_Astromega_1_PROPS = dict(
+    length=8,
+    misc_flags=RoadVehicle.Flags.USE_2CC,
+    power_type='3rd',
+    max_speed=RoadVehicle.kmhish(90),
+    power=27,
+    vehicle_life=30,
+    model_life=30,
+    climates_available=grf.ALL_CLIMATES,
+    weight=19,
+    tractive_effort_coefficient=80,
+    running_cost_factor=200,
+    cargo_capacity=88,
+    loading_speed=4,
+    cost_factor=25,
+    refittable_cargo_classes=grf.CargoClass.PASSENGERS,
+    country='sweden',
+)
+
+r_d_Astromega_1_1 = RoadVehicle(
+    **COMMON_Astromega_1_PROPS,
+    id='d_Astromega_1_1',
+    name='њSL Astromega',
+    liveries=make_psd_cc_liveries(
+        'pp/Astromega.psd',
+        shading=['Astromega'],
+        paint=['SL'],
+        cc_replace=colours["BLUE"],
+        cc2_replace=colours["GREY1"]
+    ),
+    company='sl',
+    road_type=highway_bus,
+    introduction_date=date(2020, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'Storstockholms lokaltrafik',
+        'Use': 'City bus',
+        'Builder': 'Volvo',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+
+(g.add(lib.SetPurchaseOrder(
+    grf.VariantGroup('Scania CR112', r_s_CR112_1, r_s_CR112_2, r_s_CR112_3, r_s_CR112_4),
+    grf.VariantGroup('Volvo 7900E', r_s_7900E_1_1, r_s_7900E_1_2, r_s_7900E_1_3, r_s_7900E_1_4, r_s_7900E_1_5, r_s_7900E_1_6, r_s_7900E_1_7, r_s_7900E_2_1, r_s_7900E_3_1),
+).set_variant_callbacks(g)))
+
+>>>>>>> Stashed changes
 grf.main(g, "buses.grf")
