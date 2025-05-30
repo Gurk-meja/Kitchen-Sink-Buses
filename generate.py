@@ -227,8 +227,12 @@ COMMON_CR112_PROPS = dict(
 r_s_CR112_1 = RoadVehicle(
     **COMMON_CR112_PROPS,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     #id='s_b_CR112_1',
     id=0x04,
+=======
+    id='r_s_CR112_1',
+>>>>>>> Stashed changes
 =======
     id='r_s_CR112_1',
 >>>>>>> Stashed changes
@@ -254,8 +258,12 @@ r_s_CR112_1 = RoadVehicle(
 r_s_CR112_2 = RoadVehicle(
     **COMMON_CR112_PROPS,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     #id='s_b_CR112_2',
     id=0x05,
+=======
+    id='r_s_CR112_2',
+>>>>>>> Stashed changes
 =======
     id='r_s_CR112_2',
 >>>>>>> Stashed changes
@@ -281,8 +289,12 @@ r_s_CR112_2 = RoadVehicle(
 r_s_CR112_3 = RoadVehicle(
     **COMMON_CR112_PROPS,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     #id='s_b_CR112_3',
     id=0x06,
+=======
+    id='r_s_CR112_3',
+>>>>>>> Stashed changes
 =======
     id='r_s_CR112_3',
 >>>>>>> Stashed changes
@@ -308,8 +320,12 @@ r_s_CR112_3 = RoadVehicle(
 r_s_CR112_4 = RoadVehicle(
     **COMMON_CR112_PROPS,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     #id='s_b_CR112_4',
     id=0x07,
+=======
+    id='r_s_CR112_4',
+>>>>>>> Stashed changes
 =======
     id='r_s_CR112_4',
 >>>>>>> Stashed changes
@@ -352,11 +368,18 @@ COMMON_7900E_PROPS = dict(
 )
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 s_b_7900E_1 = RoadVehicle(
     **COMMON_7900E_PROPS,
     #id='s_b_7900E_1',
     id=0x08,
     name='њVT 7900E (2-2-2)',
+=======
+r_s_7900E_1_1 = RoadVehicle(
+    **COMMON_7900E_1_PROPS,
+    id='r_s_7900E_1_1',
+    name='њVästtrafik 7900E (2-2-2)',
+>>>>>>> Stashed changes
     liveries=make_psd_cc_liveries(
         'pp/7900E.psd',
         shading='7900E',
@@ -372,6 +395,7 @@ r_s_7900E_1_1 = RoadVehicle(
         'pp/7900E.psd',
         shading='7900E (2-2-2) Västtrafik',
         paint= ['Upper window extension'],
+<<<<<<< Updated upstream
         cc_replace=colours["SLBLUE"],
 >>>>>>> Stashed changes
         cc2_replace=colours["SKY"]
@@ -397,6 +421,34 @@ r_s_7900E_1_2 = RoadVehicle(
         'pp/7900E.psd',
         shading='7900E (2-2-2) Västtrafik',
         paint= ['Upper window extension', 'Lower window extension', 'Black lights'],
+=======
+>>>>>>> Stashed changes
+        cc_replace=colours["SLBLUE"],
+        cc2_replace=colours["SKY"]
+    ),
+    company='sl',
+    road_type=highway_bus,
+    introduction_date=date(2022, 1, 1),
+    additional_text=grf.fake_vehicle_info({
+        'Operator': 'Västtrafik',
+        'Use': 'City bus',
+        'Builder': 'Volvo',
+        'Trivia': '''First metro -> bus <- for Stockholm.''',
+    }),
+)
+
+<<<<<<< Updated upstream
+r_s_7900E_1_3 = RoadVehicle(
+    **COMMON_7900E_1_PROPS,
+=======
+r_s_7900E_1_2 = RoadVehicle(
+    **COMMON_7900E_1_PROPS,
+    id='r_s_7900E_1_2',
+    name='њVästtrafik 7900E (2-2-2)',
+    liveries=make_psd_cc_liveries(
+        'pp/7900E.psd',
+        shading='7900E (2-2-2) Västtrafik',
+        paint= ['Upper window extension', 'Lower window extension', 'Black lights'],
         cc_replace=colours["SLBLUE"],
         cc2_replace=colours["SKY"]
     ),
@@ -413,6 +465,7 @@ r_s_7900E_1_2 = RoadVehicle(
 
 r_s_7900E_1_3 = RoadVehicle(
     **COMMON_7900E_1_PROPS,
+>>>>>>> Stashed changes
     id='r_s_7900E_1_3',
     name='њSkånetrafiken 7900E (2-2-2)',
     liveries=make_psd_cc_liveries(
@@ -618,7 +671,11 @@ r_d_Astromega_1_1 = RoadVehicle(
     ),
     company='sl',
     road_type=highway_bus,
+<<<<<<< Updated upstream
     introduction_date=date(2020, 1, 1),
+=======
+    introduction_date=date(2017, 1, 1),
+>>>>>>> Stashed changes
     additional_text=grf.fake_vehicle_info({
         'Operator': 'Storstockholms lokaltrafik',
         'Use': 'City bus',
